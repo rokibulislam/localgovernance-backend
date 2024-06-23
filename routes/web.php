@@ -10,6 +10,7 @@ use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SubscriptionController;
 
 
 
@@ -45,3 +46,7 @@ Route::group([ 'prefix' => 'dashboard' ], function ($router) {
     Route::post('/events/{id}/purchase', [EventController::class, 'purchase'])->name('events.purchase');
 
 })->middleware(['auth', 'verified']);
+
+
+// web.php (or api.php for API routes)
+Route::post('/subscribe', [ SubscriptionController::class, 'subscribe' ] )->name('subscribe');
