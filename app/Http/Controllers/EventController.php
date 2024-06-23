@@ -7,9 +7,11 @@ use App\Models\EventCategory;
 use App\Models\EventType;
 use App\Models\Ticket;
 use App\Models\Booking;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Notifications\NewEventNotification;
 
 class EventController extends Controller
 {
@@ -57,6 +59,13 @@ class EventController extends Controller
         $event->created_by = Auth::id();
 
         $event->save();
+
+
+        $subscribers = Subscriber::all(); 
+
+        foreach ($subscribers as $subscriber) {
+            $subscriber->notify(new NewEventNotification($event));
+        }
         
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }

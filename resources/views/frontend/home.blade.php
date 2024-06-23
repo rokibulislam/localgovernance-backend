@@ -16,17 +16,14 @@
         <section class="p-8 text-black bg-gray-100">
             <h2 class="text-2xl font-bold text-center">Event Highlights</h2>
 
-
-
-                
                 <div class="flex flex-wrap justify-center gap-6 mt-4">
             
                     @foreach( $events as $event ) 
                             
-                            <div class="w-60 bg-white rounded-lg shadow p-4">
-                                <h3 class="font-semibold"> {{ $event->name }} </h3>
-                                <p> {{ $event->description }} </p>
-                            </div>
+                        <div class="w-60 bg-white rounded-lg shadow p-4">
+                            <h3 class="font-semibold"> {{ $event->name }} </h3>
+                            <p> {{ $event->description }} </p>
+                        </div>
 
                     @endforeach
 
@@ -40,12 +37,31 @@
         </section>
 
         <section class="p-8 text-center text-white">
+            
             <h2 class="text-2xl font-bold">Stay Updated</h2>
-            <form action="#" method="POST" class="mt-4">
-                <input type="email" placeholder="Enter your email" class="px-4 py-2 border rounded-l-lg focus:outline-none">
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @elseif ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('subscribe') }}" method="POST" class="mt-4">
+                @csrf
+                <input type="email"  name="email" placeholder="Enter your email" class="px-4 py-2 border rounded-l-lg focus:outline-none text-black">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg">Subscribe</button>
             </form>
+
         </section>
+        
     </main>
 
 </x-guest-layout>
